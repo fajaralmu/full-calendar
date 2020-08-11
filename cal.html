@@ -16,38 +16,10 @@
       <h2>TimeLine</h2>
       <div id="calendar-wrapper">
         <table
+          id="cal-input-fields"
           class="table table-nonfluid"
           style="table-layout: fixed; width: 40%; text-align: center;"
-        >
-          <tr>
-            <td>
-              <select id="input_month" class="form-control"></select>
-            </td>
-            <td>
-              <input class="form-control" type="number" id="input_year" />
-            </td>
-            <td>
-              <button class="btn btn-default" id="prev" onclick="setCalendar()">
-                Go
-              </button>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <button class="btn" id="prev" onclick="doPrevMonth(true)">
-                &#10096;
-              </button>
-            </td>
-            <td>
-              <input readonly class="form-control" id="date-info" />
-            </td>
-            <td>
-              <button class="btn" id="next" onclick="doNextMonth(true)">
-                &#10097;
-              </button>
-            </td>
-          </tr>
-        </table>
+        ></table>
 
         <table class="table" id="calendarTable"></table>
       </div>
@@ -85,9 +57,10 @@
       let begin_old = { week: 0, day: 0, dayCount: 0, info: "" };
 
       const calendarTable = document.getElementById("calendarTable");
-      const input_month = document.getElementById("input_month");
-      const input_year = document.getElementById("input_year");
-      const date_info = document.getElementById("date-info");
+      const calendarInput = document.getElementById("cal-input-fields");
+      const input_month = document.createElement("select"); //input_month");
+      const input_year = document.createElement("input"); //"input_year");
+      const date_info = document.createElement("input"); //"date-info");
 
       var filterDayId, filterMonthId, filterYearId;
 
@@ -116,6 +89,61 @@
         }
       }
 
+      function createInputFields() {
+        calendarInput.innerHTML = "";
+
+        const inputRow = createHtml("tr");
+
+        input_month.className = "form-control";
+        input_month.id = "input_month";
+
+        input_year.className = "form-control";
+        input_year.id = "input_year";
+
+        const seacrhBtn = createHtml("button", "Go");
+        seacrhBtn.className = "btn btn-default";
+        seacrhBtn.onclick = function (e) {
+          setCalendar();
+        };
+
+        inputRow.appendChild(wrapTd(input_month));
+        inputRow.appendChild(wrapTd(input_year));
+        inputRow.appendChild(wrapTd(seacrhBtn));
+
+        const navRow = createHtml("tr");
+
+        date_info.id = "date-info";
+        date_info.setAttribute("readonly", "true");
+
+        const prevBtn = createHtml("button", "&#10096;");
+        prevBtn.className = "btn btn-default";
+        prevBtn.onclick = function (e) {
+          doPrevMonth(true);
+        };
+
+        const nextBtn = createHtml("button", "&#10097;");
+        nextBtn.className = "btn btn-default";
+        nextBtn.onclick = function (e) {
+          doNextMonth(true);
+        };
+        navRow.appendChild(wrapTd(prevBtn));
+        navRow.appendChild(wrapTd(date_info));
+        navRow.appendChild(wrapTd(nextBtn));
+
+        calendarInput.appendChild(inputRow);
+        calendarInput.appendChild(navRow);
+      }
+
+      function wrapTd(child) {
+        return wrapHtml("td", child);
+      }
+
+      function wrapHtml(tag, child) {
+        const el = createHtml(tag);
+        el.appendChild(child);
+        return el;
+      }
+
       function createDateCell(d, week) {
         let col = document.createElement("td");
         col.setAttribute("class", "date_element");
@@ -138,9 +166,10 @@
       }
 
       function createTable() {
+        createInputFields();
         createDayNameHeaders();
         const tBody = createHtml("tbody");
-        
+
         for (let rowNum = 1; rowNum <= 6; rowNum++) {
           const tr = createHtml("tr");
           for (let i = 1; i <= 7; i++) {
@@ -410,8 +439,7 @@
 
       function createHtml(tag, html) {
         let e = document.createElement(tag);
-        if(html)
-            e.innerHTML = html;
+        if (html) e.innerHTML = html;
         return e;
       }
 
