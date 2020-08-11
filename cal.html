@@ -48,37 +48,21 @@
             </td>
           </tr>
         </table>
-        <table class="table" id="calendarTable">
-          <thead>
-            <tr>
-              <th>
-                Senin
-              </th>
-              <th>
-                Selasa
-              </th>
-              <th>
-                Rabu
-              </th>
-              <th>
-                Kamis
-              </th>
-              <th>
-                Jumat
-              </th>
-              <th>
-                Sabtu
-              </th>
-              <th>
-                Ahad
-              </th>
-            </tr>
-          </thead>
-        </table>
+
+        <table class="table" id="calendarTable"></table>
       </div>
     </div>
     <script type="text/javascript">
-      let month = [
+      const dayNames = [
+        "Senin",
+        "Selasa",
+        "Rabu",
+        "Kamis",
+        "Jumat",
+        "Sabtu",
+        "Ahad",
+      ];
+      const month = [
         { name: "Januari", day: 31 },
         { name: "Februari", day: 28 },
         { name: "Maret", day: 31 },
@@ -98,13 +82,13 @@
       let RUNNING_YEAR = YEAR_NOW;
 
       let begin = { week: 1, day: 3, dayCount: 31, info: "" };
-      let begin_old = { week: 0, day: 0, dayCount: 0, info: "" }; 
+      let begin_old = { week: 0, day: 0, dayCount: 0, info: "" };
 
-      let tabel = document.getElementById("calendarTable");
-      let input_month = document.getElementById("input_month");
-      let input_year = document.getElementById("input_year");
-      let date_info = document.getElementById("date-info");
-      
+      const calendarTable = document.getElementById("calendarTable");
+      const input_month = document.getElementById("input_month");
+      const input_year = document.getElementById("input_year");
+      const date_info = document.getElementById("date-info");
+
       var filterDayId, filterMonthId, filterYearId;
 
       function loadCalendar() {
@@ -141,20 +125,33 @@
         return col;
       }
 
+      function createDayNameHeaders() {
+        calendarTable.innerHTML = "";
+        const tHead = createHtml("thead");
+        const tr = createHtml("tr");
+        for (let i = 0; i < dayNames.length; i++) {
+          const th = createHtml("th", dayNames[i]);
+          tr.appendChild(th);
+        }
+        tHead.appendChild(tr);
+        calendarTable.appendChild(tHead);
+      }
+
       function createTable() {
-        //console.log("BUAT TABEL");
-        const tBody = document.createElement("tbody");
+        createDayNameHeaders();
+        const tBody = createHtml("tbody");
+        
         for (let rowNum = 1; rowNum <= 6; rowNum++) {
-          const tr = document.createElement("tr");
+          const tr = createHtml("tr");
           for (let i = 1; i <= 7; i++) {
             const col = createDateCell(+i, +rowNum);
             tr.appendChild(col);
           }
           tBody.appendChild(tr);
         }
-        tabel.className = "table table-bordered";
-        tabel.style.tableLayout = "fixed";
-        tabel.appendChild(tBody);
+        calendarTable.className = "table table-bordered";
+        calendarTable.style.tableLayout = "fixed";
+        calendarTable.appendChild(tBody);
       }
 
       function setCalendar() {
@@ -231,15 +228,19 @@
           //console.log("month now", MONTH_NOW, "diff_year", monthCount, "from", to);
           let begin_month = MONTH_NOW;
 
-          for (let b = endMonth + 1; b >= begin_month + 1; b--, current_month--) {
+          for (
+            let b = endMonth + 1;
+            b >= begin_month + 1;
+            b--, current_month--
+          ) {
             if (current_month < 0) {
               current_month = 11;
-            } 
+            }
             MONTH_NOW = current_month;
             let end = prevMonth();
             if (end) {
               break;
-            } 
+            }
           }
         }
 
@@ -364,7 +365,7 @@
 
       function checkIfToday(dateElem, day) {
         let bgColor;
-        if (matchToday(day, MONTH_NOW, YEAR_NOW)) { 
+        if (matchToday(day, MONTH_NOW, YEAR_NOW)) {
           bgColor = "yellow";
           console.debug("Day NOW", day);
         } else {
@@ -409,7 +410,8 @@
 
       function createHtml(tag, html) {
         let e = document.createElement(tag);
-        e.innerHTML = html;
+        if(html)
+            e.innerHTML = html;
         return e;
       }
 
