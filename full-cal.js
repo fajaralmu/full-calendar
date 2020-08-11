@@ -28,7 +28,7 @@ const DAY_NAMES = [
 
   //MUST BE SET
   var detailFunc, addFunc;
-  var fillDateItem;
+  var fillDateItem, loadMonth;
 
   let begin = { week: 1, day: 3, dayCount: 31, info: "" };
   let begin_old = { week: 0, day: 0, dayCount: 0, info: "" };
@@ -47,7 +47,7 @@ const DAY_NAMES = [
         calendarTable = document.getElementById("calendarTable");
     }
     calendarTable.className = "table"; 
-    
+
     if(!calendarInput){
         calendarInput = document.getElementById("cal-input-fields");
     }
@@ -508,6 +508,8 @@ const DAY_NAMES = [
   }
 
   function fillDay(current_month, next, begin) {
+    
+
     clear();
     let begin_new = copyMonthProp(begin);
     let begin_old_ = copyMonthProp(begin);
@@ -520,14 +522,18 @@ const DAY_NAMES = [
     }
     let day_ = begin_new.day;
     let begin_day = day_;
-    let isNow = RUNNING_MONTH == current_month && RUNNING_YEAR == YEAR_NOW;
-    //  console.log("isNow", isNow,RUNNING_MONTH,'=',current_month, RUNNING_MONTH == current_month,RUNNING_YEAR,'=',YEAR_NOW, RUNNING_YEAR == YEAR_NOW)
+    let isToday = RUNNING_MONTH == current_month && RUNNING_YEAR == YEAR_NOW;
+    
+    if(isToday && this.loadMonth){
+        loadMonth(RUNNING_MONTH, RUNNING_YEAR);
+    }
+    
     for (let d = 1; d <= MONTHS[current_month].day; d++) {
       if (day_ > 7) {
         day_ = 1;
         week_++;
       }
-      if (isNow) {
+      if (isToday) {
         setElementByAttr("week", week_, "day", day_, d);
       }
       day_++;
@@ -537,7 +543,7 @@ const DAY_NAMES = [
     begin_new.dayCount = MONTHS[current_month].day;
 
     fillInfo();
-    if (isNow) {
+    if (isToday) {
       detail(null, RUNNING_MONTH + 1, RUNNING_YEAR);
       begin_new.info = "NOW";
     } else {
