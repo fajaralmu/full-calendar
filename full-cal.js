@@ -33,15 +33,33 @@ const DAY_NAMES = [
   let begin = { week: 1, day: 3, dayCount: 31, info: "" };
   let begin_old = { week: 0, day: 0, dayCount: 0, info: "" };
 
-  const calendarTable = document.getElementById("calendarTable");
-  const calendarInput = document.getElementById("cal-input-fields");
+  var calendarTable = document.getElementById("calendarTable");
+  var calendarInput = document.getElementById("cal-input-fields");
+
   const input_month = document.createElement("select"); //input_month");
   const input_year = document.createElement("input"); //"input_year");
   const date_info = document.createElement("input"); //"date-info");
 
   var filterDayId, filterMonthId, filterYearId;
 
+  function checkRequiredElement(){
+    if(!calendarTable){
+        calendarTable = document.getElementById("calendarTable");
+    }
+    calendarTable.className = "table"; 
+    
+    if(!calendarInput){
+        calendarInput = document.getElementById("cal-input-fields");
+    }
+
+    calendarInput.style.tableLayout="fixed";
+    calendarInput.style.textAlign = "center";
+    calendarInput.className =  "table table-nonfluid";
+     
+  }
+
   function loadCalendar() {
+    checkRequiredElement();
     createTable();
     begin_old = begin;
     begin = fillDay(MONTH_NOW, true, begin);
