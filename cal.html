@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+<!-- 
+  EXAMPLE OF USE 
+-->
 <html lang="en-US">
   <head>
     <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
@@ -20,18 +23,19 @@
       document.body.onload = function (e) {
         loadCalendar();
       };
-
+  //when detail BUTTON is clicked
       this.detailFunc = function (d, m, y) {
         console.info("DYNAMIC DETAIL: ", d, m, y);
       };
-
+  //when add BUTTON is clicked
       this.addFunc = function (d, m, y) {
         console.info("DYNAMIC ADD: ", d, m, y);
       };
-
+  //html element to be added in each day element
       this.fillDateItem = function (d, m, y) {
         return createHtml("div", "Date: " + d);
       };
+  //when one month calendar loaded
       this.loadMonth = function(m, y){
         console.info("MONTH LOADED:", m ,"-", y)
       }
