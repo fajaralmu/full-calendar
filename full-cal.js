@@ -581,7 +581,7 @@ function fillDay(current_month, next, begin) {
 	}
 	//WHEN MONTH COMPONENT LOADED ALL
 	if (isToday && this.loadMonth) {
-		loadMonth(RUNNING_MONTH, RUNNING_YEAR);
+		loadMonth(RUNNING_MONTH + 1, RUNNING_YEAR);
 	}
 	return begin_new;
 }

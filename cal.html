@@ -18,6 +18,7 @@
     <div class="container">
       <h2>Full Calendar</h2>
       <div id="calendar-wrapper">
+	<div class="alert alert-info" role="alert" id="general-info"> </div>
         <table id="cal-input-fields" style="width: 70%;"></table>
 
         <table id="calendarTable" style="width: 70%;"></table>
@@ -49,7 +50,8 @@
       };
   //when one month calendar loaded
       this.loadMonth = function(m, y){
-	alert("Month loaded: "+m+ "/" +y);
+	 
+	document.getElementById("general-info").innerHTML = ("Month loaded: "+m+ "/" +y);
         console.info("MONTH LOADED:", m ,"-", y)
       }
     </script>
