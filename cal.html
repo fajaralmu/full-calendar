@@ -7,7 +7,12 @@
     <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
     <meta content="utf-8" http-equiv="encoding" />
     <title>CALENDAR</title>
-    <script type="text/javascript" src="full-cal.js"></script>
+    <script type="text/javascript" src="full-cal.js"></script> 
+	<link rel="stylesheet"
+	href="resources/css/bootstrap.min.css" />
+	<script src="resources/js/jquery-3.3.1.slim.min.js"></script>
+	<script src="resources/js/popper.min.js"></script>
+	<script src="resources/js/bootstrap.min.js"></script>
   </head>
   <body>
     <div class="container">
@@ -25,11 +30,18 @@
       };
   //when detail BUTTON is clicked
       this.detailFunc = function (d, m, y) {
-        console.info("DYNAMIC DETAIL: ", d, m, y);
+	
+	if(d == null || m == null || y == null){
+		return;
+	}
+        alert("Detail Button Clicked: day:"+ d +", month: "+ m +", year:"+ y);
       };
   //when add BUTTON is clicked
       this.addFunc = function (d, m, y) {
-        console.info("DYNAMIC ADD: ", d, m, y);
+	if(d == null || m == null || y == null){
+		return;
+	}
+        alert("Add Button Clicked: day:"+ d +", month: "+ m +", year:"+ y);
       };
   //html element to be added in each day element
       this.fillDateItem = function (d, m, y) {
