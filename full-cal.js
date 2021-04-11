@@ -409,7 +409,7 @@ function createDateString(d, m, y) {
 function checkIfToday(dateElem, day) {
 	let bgColor;
 	if (matchToday(day, MONTH_NOW, YEAR_NOW)) {
-		bgColor = "yellow";
+		bgColor = "rgb(150,200,100)";
 		console.debug("Day NOW", day);
 	} else {
 		bgColor = "white";
